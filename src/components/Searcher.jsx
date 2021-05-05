@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import searchIP from '../utils/searchIp';
+import MapView from './Map';
 import '../assets/styles/components/Searcher.scss';
 
 const Searcher = () => {
@@ -27,52 +28,69 @@ const Searcher = () => {
   }, []);
 
   return (
-    <div className="searcher">
-      <h1>IP Address Tracker</h1>
+    <>
+      <div className="searcher">
+        <h1>IP Address Tracker</h1>
 
-      <div className="search">
-        <input
-          type="text"
-          placeholder="Search for any IP address or domain"
-          onChange={handleInput}
-          onKeyDown={handleEnter}
-        />
-        <button onClick={() => search(input)}>{'>'}</button>
+        <div className="search">
+          <input
+            type="text"
+            placeholder="Search for any IP address or domain"
+            onChange={handleInput}
+            onKeyDown={handleEnter}
+          />
+          <button onClick={() => search(input)}>{'>'}</button>
+        </div>
+
+        <div className="information">
+          <div className="stat">
+            <strong className="title">Ip Address</strong>
+            <span className="inf">{
+              (data.ip) ? data.ip : '0.0.0.0'
+            }</span>
+          </div>
+
+          <hr />
+
+          <div className="stat">
+            <strong className="title">Location</strong>
+            <span className="inf">{
+              (data.location) ?
+                `${data.location.region}, ${data.location.country} ${data.location.postalCode}`
+                :
+                'Anywhere'
+            }</span>
+          </div>
+
+          <hr />
+
+          <div className="stat">
+            <strong className="title">Timezone</strong>
+            <span className="inf">GMT {
+              (data.location) ?
+                data.location.timezone
+                :
+                '00:00'
+            }</span>
+          </div>
+
+          <hr />
+
+          <div className="stat">
+            <strong className="title">Isp</strong>
+            <span className="inf">{
+              (data.isp) ? data.isp : 'Searching...'
+            }</span>
+          </div>
+        </div>
+
       </div>
 
-      <div className="information">
-        <div className="stat">
-          <strong className="title">Ip Address</strong>
-          <span className="inf">{(data.ip) ? data.ip : '0.0.0.0'}</span>
-        </div>
-
-        <div className="stat">
-          <strong className="title">Location</strong>
-          <span className="inf">{
-            (data.location) ?
-              `${data.location.region}, ${data.location.country} ${data.location.postalCode}`
-              :
-              'Anywhere'
-          }</span>
-        </div>
-
-        <div className="stat">
-          <strong className="title">Timezone</strong>
-          <span className="inf">GMT {
-            (data.location) ?
-              data.location.timezone
-              :
-              '00:00'
-          }</span>
-        </div>
-
-        <div className="stat">
-          <strong className="title">Isp</strong>
-          <span className="inf">{(data.isp) ? data.isp : 'Searching...'}</span>
-        </div>
-      </div>
-
-    </div>
+      <MapView
+        lat={(data.location) ? data.location.lat : '0'}
+        lng={(data.location) ? data.location.lng : '0'}
+      />
+    </>
   );
 }
 

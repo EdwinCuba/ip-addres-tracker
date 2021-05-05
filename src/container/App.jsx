@@ -4,7 +4,10 @@ import '../assets/styles/containers/App.scss';
 
 const App = () => {
   return (
-    <Searcher />
+    <div className="app">
+      <Searcher />
+
+    </div>
   );
 }
 
